@@ -1,0 +1,138 @@
+===================================================================================================
+
+   subject
+
+   "Subject who performed the activity.  30 volunteers within an age bracket of 19-48 years"
+
+---------------------------------------------------------------------------------------------------
+
+   Storage mode: integer
+   Measurement: interval
+
+            Min:   1.000
+            Max:  30.000
+           Mean:  15.500
+       Std.Dev.:   8.655
+       Skewness:   0.000
+       Kurtosis:  -1.203
+
+===================================================================================================
+
+   activity
+
+   "One of six ativities performed wearing a smartphone"
+
+---------------------------------------------------------------------------------------------------
+
+   Storage mode: integer
+   Measurement: nominal
+
+          Values and labels    N    Percent 
+                                            
+   1   'LAYING'             1980   16.7 16.7
+   2   'SITTING'            1980   16.7 16.7
+   3   'STANDING'           1980   16.7 16.7
+   4   'WALKING'            1980   16.7 16.7
+   5   'WALKING_DOWNSTAIRS' 1980   16.7 16.7
+   6   'WALKING_UPSTAIRS'   1980   16.7 16.7
+
+===================================================================================================
+
+   variable
+
+   "Mean and standard deviation of measured sensor signals.  Features come from the accelerometer
+   and gyroscope 3-axial raw signals.  XYZ is used to denote 3-axial signals in the X, Y and Z
+   directions."
+
+---------------------------------------------------------------------------------------------------
+
+   Storage mode: integer
+   Measurement: nominal
+
+                    Values and labels   N   Percent
+                                                   
+    1   'tBodyAcc-mean()-X'           180   1.5 1.5
+    2   'tBodyAcc-mean()-Y'           180   1.5 1.5
+    3   'tBodyAcc-mean()-Z'           180   1.5 1.5
+    4   'tBodyAcc-std()-X'            180   1.5 1.5
+    5   'tBodyAcc-std()-Y'            180   1.5 1.5
+    6   'tBodyAcc-std()-Z'            180   1.5 1.5
+    7   'tGravityAcc-mean()-X'        180   1.5 1.5
+    8   'tGravityAcc-mean()-Y'        180   1.5 1.5
+    9   'tGravityAcc-mean()-Z'        180   1.5 1.5
+   10   'tGravityAcc-std()-X'         180   1.5 1.5
+   11   'tGravityAcc-std()-Y'         180   1.5 1.5
+   12   'tGravityAcc-std()-Z'         180   1.5 1.5
+   13   'tBodyAccJerk-mean()-X'       180   1.5 1.5
+   14   'tBodyAccJerk-mean()-Y'       180   1.5 1.5
+   15   'tBodyAccJerk-mean()-Z'       180   1.5 1.5
+   16   'tBodyAccJerk-std()-X'        180   1.5 1.5
+   17   'tBodyAccJerk-std()-Y'        180   1.5 1.5
+   18   'tBodyAccJerk-std()-Z'        180   1.5 1.5
+   19   'tBodyGyro-mean()-X'          180   1.5 1.5
+   20   'tBodyGyro-mean()-Y'          180   1.5 1.5
+   21   'tBodyGyro-mean()-Z'          180   1.5 1.5
+   22   'tBodyGyro-std()-X'           180   1.5 1.5
+   23   'tBodyGyro-std()-Y'           180   1.5 1.5
+   24   'tBodyGyro-std()-Z'           180   1.5 1.5
+   25   'tBodyGyroJerk-mean()-X'      180   1.5 1.5
+   26   'tBodyGyroJerk-mean()-Y'      180   1.5 1.5
+   27   'tBodyGyroJerk-mean()-Z'      180   1.5 1.5
+   28   'tBodyGyroJerk-std()-X'       180   1.5 1.5
+   29   'tBodyGyroJerk-std()-Y'       180   1.5 1.5
+   30   'tBodyGyroJerk-std()-Z'       180   1.5 1.5
+   31   'tBodyAccMag-mean()'          180   1.5 1.5
+   32   'tBodyAccMag-std()'           180   1.5 1.5
+   33   'tGravityAccMag-mean()'       180   1.5 1.5
+   34   'tGravityAccMag-std()'        180   1.5 1.5
+   35   'tBodyAccJerkMag-mean()'      180   1.5 1.5
+   36   'tBodyAccJerkMag-std()'       180   1.5 1.5
+   37   'tBodyGyroMag-mean()'         180   1.5 1.5
+   38   'tBodyGyroMag-std()'          180   1.5 1.5
+   39   'tBodyGyroJerkMag-mean()'     180   1.5 1.5
+   40   'tBodyGyroJerkMag-std()'      180   1.5 1.5
+   41   'fBodyAcc-mean()-X'           180   1.5 1.5
+   42   'fBodyAcc-mean()-Y'           180   1.5 1.5
+   43   'fBodyAcc-mean()-Z'           180   1.5 1.5
+   44   'fBodyAcc-std()-X'            180   1.5 1.5
+   45   'fBodyAcc-std()-Y'            180   1.5 1.5
+   46   'fBodyAcc-std()-Z'            180   1.5 1.5
+   47   'fBodyAccJerk-mean()-X'       180   1.5 1.5
+   48   'fBodyAccJerk-mean()-Y'       180   1.5 1.5
+   49   'fBodyAccJerk-mean()-Z'       180   1.5 1.5
+   50   'fBodyAccJerk-std()-X'        180   1.5 1.5
+   51   'fBodyAccJerk-std()-Y'        180   1.5 1.5
+   52   'fBodyAccJerk-std()-Z'        180   1.5 1.5
+   53   'fBodyGyro-mean()-X'          180   1.5 1.5
+   54   'fBodyGyro-mean()-Y'          180   1.5 1.5
+   55   'fBodyGyro-mean()-Z'          180   1.5 1.5
+   56   'fBodyGyro-std()-X'           180   1.5 1.5
+   57   'fBodyGyro-std()-Y'           180   1.5 1.5
+   58   'fBodyGyro-std()-Z'           180   1.5 1.5
+   59   'fBodyAccMag-mean()'          180   1.5 1.5
+   60   'fBodyAccMag-std()'           180   1.5 1.5
+   61   'fBodyBodyAccJerkMag-mean()'  180   1.5 1.5
+   62   'fBodyBodyAccJerkMag-std()'   180   1.5 1.5
+   63   'fBodyBodyGyroMag-mean()'     180   1.5 1.5
+   64   'fBodyBodyGyroMag-std()'      180   1.5 1.5
+   65   'fBodyBodyGyroJerkMag-mean()' 180   1.5 1.5
+   66   'fBodyBodyGyroJerkMag-std()'  180   1.5 1.5
+
+===================================================================================================
+
+   mean
+
+   "Average of each variable for each activity and each subject"
+
+---------------------------------------------------------------------------------------------------
+
+   Storage mode: double
+   Measurement: interval
+
+            Min:  -0.998
+            Max:   0.975
+           Mean:  -0.484
+       Std.Dev.:   0.461
+       Skewness:   0.448
+       Kurtosis:  -0.616
+
