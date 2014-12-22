@@ -8,7 +8,7 @@ function [J, grad] = costFunction(theta, X, y)
 m = length(y); % number of training examples
 
 % You need to return the following variables correctly 
-J= (-y'*log(sigmoid(X*theta))-(ones(size(y))-y)'*log(ones(size(X*theta))-sigmoid(X*theta)))/m
+J= (-y'*log(sigmoid(X*theta))-(ones(size(y))-y)'*log(ones(size(X*theta))-sigmoid(X*theta)))/m;
 grad = (X'*(sigmoid(X*theta)-y))/m;
 
 end
