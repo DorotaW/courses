@@ -1,0 +1,99 @@
+---
+title: "Practical Machine Learning Project"
+author: "Dorota"
+date: "21 June 2015"
+output: html_document
+---
+
+```{r setup, include=FALSE, echo=FALSE, results='hide'}
+knitr::opts_chunk$set(cache=TRUE,warning=FALSE, message=FALSE)
+```
+
+## Goal
+
+Build a machine learning algorithm to predict activity quality from activity monitors using data from accelerometers on the belt, forearm, arm, and dumbell of 6 participants. 
+The training data for this project are available here: 
+https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv
+
+## Loading and pre-processing the data
+
+After loading csv file I decided to remove following columns : X, 3 timestamps columns and 2 windows columns as they do not contain any relevant info for predictions.
+
+Data was also split into 60% training and 40% testing set.
+
+As a part of pre processing the data, missing values were imputated with median, near zero variance features were removed, and user_name variable was dummy coded.
+
+```{r, results='hide'}
+library(caret)
+library(parallel)
+library(doParallel)
+
+#load raw data and remove unecessary columns
+data <- read.csv("pml-training.csv", header = TRUE)
+data$classe <- factor(data$classe)
+data<-data[,-c(1,3,4,5,6,7)]
+
+#split data
+set.seed(9876)
+trainIndex <- createDataPartition(y = data$classe, p=0.6,list=FALSE)
+training <- data[trainIndex,]
+testing<- data[-trainIndex,]
+
+#pre processing
+NAColumn<- apply(training,2,function(x) {sum(is.na(x))})
+preProcValues<-preProcess(training[,NAColumn>0], method="medianImpute")
+trainProc1 <- predict(preProcValues, training)
+
+nzv <- nearZeroVar(trainProc1)
+trainProc2<- trainProc1[, -nzv]
+
+dummy<-dummyVars(~user_name, data=trainProc2)
+trainProc<-cbind(predict(dummy,trainProc2),trainProc2[-1])
+```
+  
+## Building models
+
+For classifiaction problems there are several machine lerning models that can be used. For the purpose of this exercise we comapte 3 of them : Linear Discriminant Analysis, Classification Tree and Random Forest.
+To estimate how how accurately those models will perform in test data 2 folded 5 repeated 2-fold Cross Validation ws used.
+
+```{r, results='hide'}
+#random seed
+registerDoParallel(makeCluster(detectCores()))
+set.seed(9876)
+## 5 repeaed 2 fold CV
+ctrl<- trainControl(method = "repeatedcv", number = 2, repeats = 5)
+model1<-train(classe ~ ., method = 'lda', data =trainProc, trControl=ctrl)
+model2<-train(classe ~ ., method = 'rpart', data =trainProc, trControl=ctrl)
+model3<-train(classe ~ ., method = 'rf', data =trainProc, trControl=ctrl)
+```
+
+Estimate of the true prediction error are as follow:
+
+  - Linear Discriminant Analysis `r paste(round(1-model1$results[2],2)*100,'%')`
+  - Classification Tree `r paste(round(1-max(model2$results[2]),2)*100,'%')`
+  - Random Forest `r paste(round(1-max(model3$results[2]),2)*100,'%')`
+  
+As espected Random Forest does perfom the best, with estimated error only `r paste(round(1-max(model3$results[2]),2)*100,'%')` (accuaracy `r paste(round(max(model3$results[2]),2)*100,'%')`), so it's will be selected as final model. 
+
+## Predicting outcome for test data
+
+By applying the Random Forect model to test data we can see the actual prediction error/accuracy.
+
+```{r}
+#Applying the same transformation as to the train data
+testProc0 <- predict(preProcValues, testing)
+testProc <- cbind(predict(dummy,testProc0),testProc0[-1])
+
+# Prediction
+prediction<- predict(model3, testProc)
+confusionMatrix(prediction, testProc$classe)[2:3]
+```
+
+## Variables importance
+
+The 10 most important predictors in the model are listed below.
+
+```{r, echo=FALSE}
+vi = varImp(model3)
+plot(vi, top = 10)
+```
