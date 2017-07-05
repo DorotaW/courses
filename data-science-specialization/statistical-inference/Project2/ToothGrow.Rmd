@@ -1,0 +1,63 @@
+---
+title: "ToothGrow Data Analysis"
+author: "Dorota"
+date: "21 June 2015"
+output: word_document
+---
+
+```{r setup, include=FALSE, echo=FALSE, results='hide'}
+knitr::opts_chunk$set(cache=TRUE,warning=FALSE, message=FALSE)
+```
+
+Load the ToothGrowth data and perform some basic exploratory data analyses 
+Provide a basic summary of the data.
+Use confidence intervals and/or hypothesis tests to compare tooth growth by supp and dose. (Only use the techniques from class,  
+
+## Summary of the data
+
+The aim of the analysis is to show how tooth length of guinea pigs depends on dosage of Vitamin C (on 0.5, 1, and 2 mg level) with each of two delivery methods: orange juice OJ or ascorbic acid VC
+
+```{r}
+data<-ToothGrowth
+dt<-data
+dt$dose<-as.factor(dt$dose)
+
+#exploratory plot
+library(ggplot2)
+ggplot(dt, aes(x=dose, y = len, fill=dose)) +
+  geom_boxplot() + labs(title = "Length of Tooth by Dosage of the Vitamine C") + facet_grid( . ~ supp)
+```
+
+## Hypothesis Tests
+
+Below we run t tests separately for dose and type of supplement, to chekc if differency between those groups are sigificant
+
+```{r}
+dt12<- subset(data, dose %in% c(0.5, 1)) 
+dt13<- subset(data, dose %in% c(0.5, 2))
+dt23<- subset(data, dose %in% c(1, 2))
+
+dt12$dose<-as.factor(dt12$dose)
+dt13$dose<-as.factor(dt13$dose)
+dt23$dose<-as.factor(dt23$dose)
+
+print ('Diferences beeteen Orange Juice and Vitamine C')
+t.test(len ~ supp, paired = FALSE, 
+       var.equal = FALSE, data = dt)
+
+print ('Diferences beeteen 0.5 mg and 1 mg dosage')
+t.test(len ~ dose, paired = FALSE, 
+       var.equal = FALSE, data = dt12)
+
+print ('Diferences beeteen 0.5 mg and 2 mg dosage')
+t.test(len ~ dose, paired = FALSE, 
+       var.equal = FALSE, data = dt13)
+
+print ('Diferences beeteen 1 mg and 2 mg dosage')
+t.test(len ~ dose, paired = FALSE, 
+       var.equal = FALSE, data = dt23)
+```
+
+## Conclusions
+
+As p Value is 0.06, higher than standard cut-off 0.05, we canot reject null hyphothesis and there is no signifiact inidiacation that there is difference in tooth growth based on the type of suplement (juice vs vitamine). However the size of the dosage matters. Bothe 0.5 mg causes signigicantly longer tooth than 1mg and, there is also significant difference between 1mg and 2mg.

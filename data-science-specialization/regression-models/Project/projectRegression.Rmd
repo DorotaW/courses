@@ -1,0 +1,81 @@
+---
+title: "What impacts miles per gallon - analysis of mtcars data set"
+author: "Dorota"
+date: "21 June 2015"
+output: word_document
+---
+
+## Executive Summary
+
+Based on below analysis,  we can coclude that manual transmissions are better than automatic in terms of miles per gallon.
+A change from automatic to manual transmission increased the MPG by 7.245. However, transmission type only explained 36% (R2) of the variation in mpg. Other variables like weight, number of cylinders and horsepower are better indicator of miles per gallon.
+
+
+## Data Processing
+
+After uploading the data, some of the vriables were coded as factor
+```{r,results='hide'}
+mtcars<-mtcars
+mtcars$cyl=factor(mtcars$cyl)
+mtcars$vs=factor(mtcars$vs)
+mtcars$gear=factor(mtcars$gear)
+mtcars$carb=factor(mtcars$carb)
+mtcars$am=factor(mtcars$am,labels=c('Automatic','Manual'))
+```
+
+## Exploratory Data Analysis**
+
+Below boxplot shows that there might be a difference between automatic and manual  transmission
+
+```{r}
+library(ggplot2)
+ggplot(mtcars, aes(x=am, y = mpg, fill=am)) +
+  geom_boxplot() + labs(title = "MIles per gallon")
+```
+
+```{r,echo=FALSE}
+library(plyr)
+
+test=t.test(mpg ~am, data = mtcars)
+t=t.test(mpg ~am, data = mtcars)$p.value
+```
+
+Additionally, running t test shows that this difference is significant (t-test results in p-value `r t`)
+
+
+```{r,echo=FALSE}
+library(plyr)
+### mean of transmission type
+Transmission=ddply(mtcars,"am",summarize, avg=mean(mpg))
+test=t.test(mpg ~am, data = mtcars)
+t=t.test(mpg ~am, data = mtcars)$p.value
+```
+
+## Building the model
+
+We wil start building the model, buy using only tranmission variable, later on we will use stepwise approach to find the best model (based on AIC criterion)
+
+```{r}
+library(MASS)
+fit<- lm(mpg ~ am, data=mtcars)
+fit2<-lm(mpg ~ ., data=mtcars)
+summary(fit)
+step = stepAIC(fit2, scope=list(lower=~am),direction="both",trace=FALSE)
+summary(step)
+```
+
+Adding number of cylinders, weight and horsepower to the model improves how much variance can be explained by the model (from 36% to 87% ). Also coefficient changed from 7.245 to 1.8
+
+
+## Diagnostics
+
+We can also check residuals
+
+``` {r}
+par(mfrow=c(2,2))
+plot(fit)
+```
+
+## Conclusion
+
+There is a difference in mpg in relation to transmission type, however, transmission type does not appear to be a very good explanatory variable on its own.  
